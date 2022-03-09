@@ -33,6 +33,8 @@ const userSchema = new Schema({
     unique: true,
     trim: true
   }
+}, {
+  timestamps: true
 })
 
 userSchema.pre('save', async function () {
