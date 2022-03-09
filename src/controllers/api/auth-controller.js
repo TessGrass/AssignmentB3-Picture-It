@@ -1,4 +1,4 @@
-// import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import createError from 'http-errors'
 import { User } from '../../models/user-model.js'
 
@@ -23,8 +23,6 @@ export class AuthController {
         lastName: req.body.lastName,
         email: req.body.email
       })
-      console.log(newUser)
-
       await newUser.save()
       res
         .status(201)
@@ -44,5 +42,31 @@ export class AuthController {
 
       next(err)
     }
+  }
+
+  /**
+   * Login user.
+   *
+   * @param {*} req - Express request object.
+   * @param {*} res  - Express respons object.
+   * @param {*} next - Express next middleware function
+   */
+  async login (req, res, next) {
+
+    const user = await User.authenticate(req.body.username, req.body.password)
+    const secretKey = Buffer.from(process.env.ACCESS_TOKEN_SECRET, 'base64')
+
+    const payload = {
+      username: user.username,
+      email: user.email,
+      id: user.id
+    }
+
+    const accessToken = jwt.sign(payload, secretKey, {
+      algorithm: 'RS256'
+    } )
+
+
+    
   }
 }
