@@ -52,21 +52,33 @@ export class AuthController {
    * @param {*} next - Express next middleware function
    */
   async login (req, res, next) {
+    console.log('inside login')
+    try {
+      const user = await User.authenticate(req.body.username, req.body.password)
+      const secretKey = Buffer.from(process.env.ACCESS_TOKEN_SECRET, 'base64')
 
-    const user = await User.authenticate(req.body.username, req.body.password)
-    const secretKey = Buffer.from(process.env.ACCESS_TOKEN_SECRET, 'base64')
+      const payload = {
+        username: user.username,
+        email: user.email,
+        id: user.id
+      }
 
-    const payload = {
-      username: user.username,
-      email: user.email,
-      id: user.id
+      const accessToken = jwt.sign(payload, secretKey, {
+        algorithm: 'RS256',
+        expiresIn: process.env.ACCESS_TOKEN_LIFE
+      })
+
+      res
+        .status(201)
+        .json({
+          access_token: accessToken
+          // refresh_token: refreshToken
+        })
+    } catch (error) {
+      // Authentication failed.
+      const err = createError(401)
+      err.cause = error
+      next(err)
     }
-
-    const accessToken = jwt.sign(payload, secretKey, {
-      algorithm: 'RS256'
-    } )
-
-
-    
   }
 }
