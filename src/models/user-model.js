@@ -16,24 +16,30 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
-    minlength: [8, 'The password must be of minimum length 8 characters.'],
-    maxlength: [600, 'The password must be of maximum length 600 characters.']
+    writeOnly: true,
+    minlength: [10, 'The password must be of minimum length 10 characters.'],
+    maxlength: [256, 'The password must be of maximum length 256 characters.']
   },
   firstName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    minlength: [1, 'The firstname must be of minimum length 1 character.'],
+    maxlength: [256, 'The firstname must be of maximum length 256 characters.']
   },
   lastName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    minlength: [1, 'The firstname must be of minimum length 1 character.'],
+    maxlength: [256, 'The firstname must be of maximum length 256 characters.']
   },
   email: {
     type: String,
     required: true,
     unique: true,
     trim: true,
+    maxlength: [254, 'The firstname must be of maximum length 256 characters.'],
     validate: [isEmail, 'Please provide a valid email address.']
   }
 }, {

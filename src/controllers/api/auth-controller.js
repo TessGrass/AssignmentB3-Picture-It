@@ -9,9 +9,9 @@ export class AuthController {
   /**
    * Register a new user.
    *
-   * @param {*} req - Express request object.
-   * @param {*} res  - Express respons object.
-   * @param {*} next - Express next middleware function.
+   * @param {object} req - Express request object.
+   * @param {object} res  - Express respons object.
+   * @param {Function} next - Express next middleware function.
    */
   async register (req, res, next) {
     try {
