@@ -82,4 +82,4 @@ userSchema.statics.authenticate = async function (username, password) {
   return user
 }
 
-export const User = mongoose.model('User', userSchema)
+export const User = mongoose.model('imageUser', userSchema)

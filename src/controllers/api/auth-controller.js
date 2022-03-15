@@ -31,15 +31,12 @@ export class AuthController {
       let err = error
 
       if (err.code === 11000) {
-        // Duplicated keys.
         err = createError(409)
-        err.cause = error
+        next(err)
       } else if (error.name === 'ValidationError') {
-        // Validation error(s).
         err = createError(400)
-        err.cause = error
+        next(400)
       }
-
       next(err)
     }
   }
@@ -69,7 +66,7 @@ export class AuthController {
       })
 
       res
-        .status(201)
+        .status(200)
         .json({
           access_token: accessToken
           // refresh_token: refreshToken
@@ -77,7 +74,7 @@ export class AuthController {
     } catch (error) {
       // Authentication failed.
       const err = createError(401)
-      err.cause = error
+      // err.cause = error
       next(err)
     }
   }
