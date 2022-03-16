@@ -29,7 +29,6 @@ export class AuthController {
         .json({ id: newUser.id })
     } catch (error) {
       let err = error
-
       if (err.code === 11000) {
         err = createError(409)
         next(err)
@@ -69,12 +68,9 @@ export class AuthController {
         .status(200)
         .json({
           access_token: accessToken
-          // refresh_token: refreshToken
         })
     } catch (error) {
-      // Authentication failed.
       const err = createError(401)
-      // err.cause = error
       next(err)
     }
   }
