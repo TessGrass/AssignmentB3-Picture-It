@@ -15,7 +15,6 @@ export class AuthController {
    */
   async register (req, res, next) {
     try {
-      console.log(req.body)
       const newUser = new User({
         username: req.body.username,
         password: req.body.password,
